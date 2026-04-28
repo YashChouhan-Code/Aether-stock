@@ -16,8 +16,8 @@ export default function ItemMaster() {
   const fetchItemsAndSettings = () => {
     setLoading(true);
     Promise.all([
-      fetch('http://localhost:5000/api/items').then(res => res.json()),
-      fetch('http://localhost:5000/api/settings').then(res => res.json())
+      fetch('/api/items').then(res => res.json()),
+      fetch('/api/settings').then(res => res.json())
     ]).then(([itemsData, settingsData]) => {
       if (itemsData.message === 'success') setItems(itemsData.data);
       if (settingsData.message === 'success' && settingsData.data) {
@@ -45,7 +45,7 @@ export default function ItemMaster() {
     e.preventDefault();
     const existingItem = items.find(item => item.id.toLowerCase() === formData.id.toLowerCase());
     const method = (isEditMode || existingItem) ? 'PUT' : 'POST';
-    const url = (isEditMode || existingItem) ? `http://localhost:5000/api/items/${formData.id}` : 'http://localhost:5000/api/items';
+    const url = (isEditMode || existingItem) ? `/api/items/${formData.id}` : '/api/items';
     fetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(formData) })
       .then(res => res.json())
       .then(data => { if (data.message === 'success') { closeModal(); fetchItemsAndSettings(); } });
@@ -53,7 +53,7 @@ export default function ItemMaster() {
 
   const handleDeleteItem = (id) => {
     if (window.confirm("Are you sure you want to delete this item?")) {
-      fetch(`http://localhost:5000/api/items/${id}`, { method: 'DELETE' })
+      fetch(`/api/items/${id}`, { method: 'DELETE' })
         .then(res => res.json())
         .then(data => { if (data.message === 'success') fetchItemsAndSettings(); });
     }

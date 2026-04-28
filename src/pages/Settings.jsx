@@ -10,7 +10,7 @@ export default function Settings() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/settings')
+    fetch('/api/settings')
       .then(res => res.json())
       .then(data => {
         if (data.message === 'success' && data.data) {
@@ -26,7 +26,7 @@ export default function Settings() {
 
   const handleSave = (e) => {
     e.preventDefault();
-    fetch('http://localhost:5000/api/settings', {
+    fetch('/api/settings', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(settings)

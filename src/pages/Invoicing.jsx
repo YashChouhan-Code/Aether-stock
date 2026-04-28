@@ -17,8 +17,8 @@ export default function Invoicing() {
   const fetchInvoicesAndSettings = () => {
     setLoading(true);
     Promise.all([
-      fetch('http://localhost:5000/api/invoices').then(res => res.json()),
-      fetch('http://localhost:5000/api/settings').then(res => res.json())
+      fetch('/api/invoices').then(res => res.json()),
+      fetch('/api/settings').then(res => res.json())
     ]).then(([invoicesData, settingsData]) => {
       if (invoicesData.message === 'success') setInvoices(invoicesData.data);
       if (settingsData.message === 'success' && settingsData.data) {
@@ -43,7 +43,7 @@ export default function Invoicing() {
       total: totalWithGST.toFixed(2),
       status: formData.status
     };
-    fetch('http://localhost:5000/api/invoices', {
+    fetch('/api/invoices', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(newInvoice)
@@ -55,7 +55,7 @@ export default function Invoicing() {
   };
 
   const handleMarkPaid = (id) => {
-    fetch(`http://localhost:5000/api/invoices/${id}/pay`, { method: 'PUT' })
+    fetch(`/api/invoices/${id}/pay`, { method: 'PUT' })
       .then(res => res.json())
       .then(data => { if (data.message === 'success') fetchInvoicesAndSettings(); });
   };

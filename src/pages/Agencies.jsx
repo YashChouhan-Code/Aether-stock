@@ -11,7 +11,7 @@ export default function Agencies() {
 
   const fetchAgencies = () => {
     setLoading(true);
-    fetch('http://localhost:5000/api/agencies')
+    fetch('/api/agencies')
       .then(res => res.json())
       .then(data => {
         if (data.message === 'success') setAgencies(data.data);
@@ -30,7 +30,7 @@ export default function Agencies() {
       performance_score: formData.performance_score
     };
 
-    fetch('http://localhost:5000/api/agencies', {
+    fetch('/api/agencies', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(newAgency)

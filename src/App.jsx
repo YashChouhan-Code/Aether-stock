@@ -15,7 +15,7 @@ function App() {
   const [isDark, setIsDark] = useState(false);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/settings')
+    fetch('/api/settings')
       .then(res => res.json())
       .then(data => {
         if (data.message === 'success' && data.data) {
@@ -32,7 +32,7 @@ function App() {
     setIsDark(newDark);
     if (newDark) document.body.classList.add('dark-theme');
     else document.body.classList.remove('dark-theme');
-    fetch('http://localhost:5000/api/settings', {
+    fetch('/api/settings', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ theme: newDark ? 'dark' : 'light' })

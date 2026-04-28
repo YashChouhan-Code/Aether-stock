@@ -35,7 +35,7 @@ export default function Dashboard() {
   ]);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/items')
+    fetch('/api/items')
       .then(r => r.json())
       .then(d => {
         if (d.message === 'success') {
@@ -53,7 +53,7 @@ export default function Dashboard() {
         }
       }).catch(() => {});
 
-    fetch('http://localhost:5000/api/invoices')
+    fetch('/api/invoices')
       .then(r => r.json())
       .then(d => {
         if (d.message === 'success') {

@@ -11,7 +11,7 @@ export default function PurchaseOrders() {
 
   const fetchPOs = () => {
     setLoading(true);
-    fetch('http://localhost:5000/api/purchase-orders')
+    fetch('/api/purchase-orders')
       .then(res => res.json())
       .then(data => {
         if (data.message === 'success') setPos(data.data);
@@ -32,7 +32,7 @@ export default function PurchaseOrders() {
       status: 'Pending'
     };
 
-    fetch('http://localhost:5000/api/purchase-orders', {
+    fetch('/api/purchase-orders', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(newPO)
@@ -49,7 +49,7 @@ export default function PurchaseOrders() {
       status: 'Pending'
     };
 
-    fetch('http://localhost:5000/api/purchase-orders', {
+    fetch('/api/purchase-orders', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(newPO)
@@ -61,7 +61,7 @@ export default function PurchaseOrders() {
   };
 
   const handleApprovePO = (id) => {
-    fetch(`http://localhost:5000/api/purchase-orders/${id}/approve`, { method: 'PUT' })
+    fetch(`/api/purchase-orders/${id}/approve`, { method: 'PUT' })
       .then(() => fetchPOs());
   };
 

@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const db = require('./database');
 
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -128,6 +128,15 @@ app.put('/api/settings', (req, res) => {
       }
     });
   });
+});
+
+// Serve static files from the React app
+const path = require('path');
+app.use(express.static(path.join(__dirname, '../dist')));
+
+// Catch-all route for React Router
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../dist/index.html'));
 });
 
 app.listen(PORT, () => console.log(`Backend running on port ${PORT}`));
