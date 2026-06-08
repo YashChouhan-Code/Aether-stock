@@ -43,7 +43,7 @@ export default function Agencies() {
 
   return (
     <div>
-      <div className="page-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <div className="page-header">
         <h1 className="page-title">Agencies & Suppliers</h1>
         <button className="btn-primary" onClick={() => setIsModalOpen(true)}>
           <Plus size={16} /> Add New Vendor
@@ -56,40 +56,42 @@ export default function Agencies() {
         <div className="box-header">Registered Agencies</div>
         <div className="box-body">
           {loading ? <p>Loading Agencies...</p> : (
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>Vendor ID</th>
-                  <th>Agency Name</th>
-                  <th>Contact Info</th>
-                  <th>AI Performance Score</th>
-                </tr>
-              </thead>
-              <tbody>
-                {agencies.filter(agency => {
-                  const q = search.toLowerCase();
-                  return (
-                    (agency.id || '').toLowerCase().includes(q) ||
-                    (agency.name || '').toLowerCase().includes(q) ||
-                    (agency.contact || '').toLowerCase().includes(q)
-                  );
-                }).map(agency => (
-                  <tr key={agency.id}>
-                    <td><b>{agency.id}</b></td>
-                    <td>{agency.name}</td>
-                    <td>{agency.contact}</td>
-                    <td>
-                      <div style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
-                        <div style={{background: '#eee', height: '8px', width: '100px', borderRadius: '4px'}}>
-                          <div style={{background: agency.performance_score > 90 ? '#10b981' : '#f59e0b', height: '100%', width: `${agency.performance_score}%`, borderRadius: '4px'}}></div>
-                        </div>
-                        <span style={{fontSize: '12px', fontWeight: 'bold'}}>{agency.performance_score}%</span>
-                      </div>
-                    </td>
+            <div className="table-responsive">
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th>Vendor ID</th>
+                    <th>Agency Name</th>
+                    <th>Contact Info</th>
+                    <th>AI Performance Score</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {agencies.filter(agency => {
+                    const q = search.toLowerCase();
+                    return (
+                      (agency.id || '').toLowerCase().includes(q) ||
+                      (agency.name || '').toLowerCase().includes(q) ||
+                      (agency.contact || '').toLowerCase().includes(q)
+                    );
+                  }).map(agency => (
+                    <tr key={agency.id}>
+                      <td><b>{agency.id}</b></td>
+                      <td>{agency.name}</td>
+                      <td>{agency.contact}</td>
+                      <td>
+                        <div style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
+                          <div style={{background: '#eee', height: '8px', width: '100px', borderRadius: '4px'}}>
+                            <div style={{background: agency.performance_score > 90 ? '#10b981' : '#f59e0b', height: '100%', width: `${agency.performance_score}%`, borderRadius: '4px'}}></div>
+                          </div>
+                          <span style={{fontSize: '12px', fontWeight: 'bold'}}>{agency.performance_score}%</span>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           )}
         </div>
       </div>

@@ -67,9 +67,9 @@ export default function PurchaseOrders() {
 
   return (
     <div>
-      <div className="page-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <div className="page-header">
         <h1 className="page-title">Automated Purchasing & Vendors</h1>
-        <div style={{ display: 'flex', gap: '10px' }}>
+        <div className="page-actions">
           <button className="btn-primary" onClick={() => setIsModalOpen(true)}>
             <Plus size={16} /> Manual P.O.
           </button>
@@ -85,42 +85,44 @@ export default function PurchaseOrders() {
         <div className="box-header">Recent Purchase Orders</div>
         <div className="box-body">
           {loading ? <p>Loading POs...</p> : (
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>PO Number</th>
-                  <th>Supplier/Agency</th>
-                  <th>Type</th>
-                  <th>Amount</th>
-                  <th>Status</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {pos.filter(po => {
-                  const q = search.toLowerCase();
-                  return (
-                    (po.id || '').toLowerCase().includes(q) ||
-                    (po.supplier || '').toLowerCase().includes(q) ||
-                    (po.type || '').toLowerCase().includes(q) ||
-                    (po.status || '').toLowerCase().includes(q)
-                  );
-                }).map(po => (
-                  <tr key={po.id}>
-                    <td><b>{po.id}</b></td>
-                    <td>{po.supplier}</td>
-                    <td><span className={po.type === 'AI Generated' ? "badge badge-ai" : "badge badge-warning"}>{po.type}</span></td>
-                    <td>₹ {po.amount.toLocaleString()}</td>
-                    <td><span className={`badge ${po.status === 'Approved' ? 'badge-success' : 'badge-warning'}`}>{po.status}</span></td>
-                    <td>
-                      {po.status === 'Pending' && (
-                        <button className="btn-primary" style={{padding: '4px 8px', fontSize: '12px'}} onClick={() => handleApprovePO(po.id)}>Approve</button>
-                      )}
-                    </td>
+            <div className="table-responsive">
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th>PO Number</th>
+                    <th>Supplier/Agency</th>
+                    <th>Type</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                    <th>Action</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {pos.filter(po => {
+                    const q = search.toLowerCase();
+                    return (
+                      (po.id || '').toLowerCase().includes(q) ||
+                      (po.supplier || '').toLowerCase().includes(q) ||
+                      (po.type || '').toLowerCase().includes(q) ||
+                      (po.status || '').toLowerCase().includes(q)
+                    );
+                  }).map(po => (
+                    <tr key={po.id}>
+                      <td><b>{po.id}</b></td>
+                      <td>{po.supplier}</td>
+                      <td><span className={po.type === 'AI Generated' ? "badge badge-ai" : "badge badge-warning"}>{po.type}</span></td>
+                      <td>₹ {po.amount.toLocaleString()}</td>
+                      <td><span className={`badge ${po.status === 'Approved' ? 'badge-success' : 'badge-warning'}`}>{po.status}</span></td>
+                      <td>
+                        {po.status === 'Pending' && (
+                          <button className="btn-primary" style={{padding: '4px 8px', fontSize: '12px'}} onClick={() => handleApprovePO(po.id)}>Approve</button>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           )}
         </div>
       </div>

@@ -84,7 +84,7 @@ export default function ItemMaster() {
 
   return (
     <div>
-      <div className="page-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <div className="page-header">
         <h1 className="page-title">Item Master</h1>
         <button className="btn-primary" onClick={() => { setIsEditMode(false); setIsModalOpen(true); }}>
           <span>+</span> Add New Item
@@ -97,39 +97,41 @@ export default function ItemMaster() {
         <div className="box-header">Inventory List <span style={{ fontSize: '13px', color: '#888', fontWeight: 'normal' }}>({filteredItems.length} items)</span></div>
         <div className="box-body">
           {loading ? <p>Loading items...</p> : (
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>Item Code</th>
-                  <th>Item Name</th>
-                  <th>Category</th>
-                  <th>Stock Level</th>
-                  <th>Unit</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredItems.map((item) => {
-                  const statusInfo = getStatusDisplay(item);
-                  return (
-                    <tr key={item.id}>
-                      <td><b>{item.id}</b></td>
-                      <td>{item.name}</td>
-                      <td>{item.category}</td>
-                      <td>{item.stock}</td>
-                      <td>{item.unit}</td>
-                      <td><span className={`badge ${statusInfo.color}`}>{statusInfo.text}</span></td>
-                      <td>
-                        <button style={{ background: 'transparent', border: 'none', color: '#337ab7', marginRight: '10px', cursor: 'pointer' }} onClick={() => openEditModal(item)}><Edit size={16} /></button>
-                        <button style={{ background: 'transparent', border: 'none', color: '#dd4b39', cursor: 'pointer' }} onClick={() => handleDeleteItem(item.id)}><Trash size={16} /></button>
-                      </td>
-                    </tr>
-                  );
-                })}
-                {filteredItems.length === 0 && <tr><td colSpan="7" style={{ textAlign: 'center', padding: '20px', color: '#888' }}>No items found.</td></tr>}
-              </tbody>
-            </table>
+            <div className="table-responsive">
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th>Item Code</th>
+                    <th>Item Name</th>
+                    <th>Category</th>
+                    <th>Stock Level</th>
+                    <th>Unit</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredItems.map((item) => {
+                    const statusInfo = getStatusDisplay(item);
+                    return (
+                      <tr key={item.id}>
+                        <td><b>{item.id}</b></td>
+                        <td>{item.name}</td>
+                        <td>{item.category}</td>
+                        <td>{item.stock}</td>
+                        <td>{item.unit}</td>
+                        <td><span className={`badge ${statusInfo.color}`}>{statusInfo.text}</span></td>
+                        <td>
+                          <button style={{ background: 'transparent', border: 'none', color: '#337ab7', marginRight: '10px', cursor: 'pointer' }} onClick={() => openEditModal(item)}><Edit size={16} /></button>
+                          <button style={{ background: 'transparent', border: 'none', color: '#dd4b39', cursor: 'pointer' }} onClick={() => handleDeleteItem(item.id)}><Trash size={16} /></button>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                  {filteredItems.length === 0 && <tr><td colSpan="7" style={{ textAlign: 'center', padding: '20px', color: '#888' }}>No items found.</td></tr>}
+                </tbody>
+              </table>
+            </div>
           )}
         </div>
       </div>
@@ -152,7 +154,7 @@ export default function ItemMaster() {
                   <label>Item Name</label>
                   <input type="text" className="form-control" name="name" value={formData.name} onChange={handleInputChange} required />
                 </div>
-                <div style={{ display: 'flex', gap: '15px' }}>
+                <div className="form-row">
                   <div className="form-group" style={{ flex: 1 }}>
                     <label>Category</label>
                     <select className="form-control" name="category" value={formData.category} onChange={handleInputChange} required>
@@ -163,7 +165,7 @@ export default function ItemMaster() {
                     </select>
                   </div>
                 </div>
-                <div style={{ display: 'flex', gap: '15px' }}>
+                <div className="form-row">
                   <div className="form-group" style={{ flex: 1 }}>
                     <label>Stock</label>
                     <input type="number" className="form-control" name="stock" value={formData.stock} onChange={handleInputChange} required min="0" />

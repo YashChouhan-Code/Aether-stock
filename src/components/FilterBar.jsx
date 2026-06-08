@@ -1,5 +1,5 @@
-import React from 'react';
-import { Search, X } from 'lucide-react';
+import React, { useState } from 'react';
+import { Search, X, Filter } from 'lucide-react';
 
 /**
  * Reusable Filter Bar with:
@@ -15,6 +15,8 @@ import { Search, X } from 'lucide-react';
  *   showDateFilter (bool) - show/hide date pickers, default true
  */
 export default function FilterBar({ search, setSearch, dateFrom, setDateFrom, dateTo, setDateTo, showDateFilter = true }) {
+  const [showMobileDates, setShowMobileDates] = useState(false);
+
   const handleClear = () => {
     setSearch('');
     if (setDateFrom) setDateFrom('');
@@ -37,23 +39,36 @@ export default function FilterBar({ search, setSearch, dateFrom, setDateFrom, da
       </div>
       {showDateFilter && (
         <>
-          <div className="filter-date-group">
-            <label>From</label>
-            <input
-              type="date"
-              className="filter-input"
-              value={dateFrom}
-              onChange={e => setDateFrom(e.target.value)}
-            />
-          </div>
-          <div className="filter-date-group">
-            <label>To</label>
-            <input
-              type="date"
-              className="filter-input"
-              value={dateTo}
-              onChange={e => setDateTo(e.target.value)}
-            />
+          <button
+            type="button"
+            className="filter-toggle-btn"
+            onClick={() => setShowMobileDates(!showMobileDates)}
+            title="Toggle Date Filters"
+          >
+            <Filter size={14} />
+            <span>Dates</span>
+            {(dateFrom || dateTo) && <span className="filter-dot"></span>}
+          </button>
+
+          <div className={`filter-dates-wrapper ${showMobileDates ? 'show' : ''}`}>
+            <div className="filter-date-group">
+              <label>From</label>
+              <input
+                type="date"
+                className="filter-input"
+                value={dateFrom}
+                onChange={e => setDateFrom(e.target.value)}
+              />
+            </div>
+            <div className="filter-date-group">
+              <label>To</label>
+              <input
+                type="date"
+                className="filter-input"
+                value={dateTo}
+                onChange={e => setDateTo(e.target.value)}
+              />
+            </div>
           </div>
         </>
       )}

@@ -91,7 +91,7 @@ export default function Invoicing() {
 
   return (
     <div>
-      <div className="page-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <div className="page-header">
         <h1 className="page-title">Customer Invoicing (Billing)</h1>
         <button className="btn-primary" style={{ backgroundColor: '#1e3a8a' }} onClick={() => setIsModalOpen(true)}>
           <Plus size={16} /> New GST Invoice
@@ -104,39 +104,41 @@ export default function Invoicing() {
         <div className="box-header">Recent Invoices <span style={{ fontSize: '13px', color: '#888', fontWeight: 'normal' }}>({filteredInvoices.length})</span></div>
         <div className="box-body">
           {loading ? <p>Loading Invoices...</p> : (
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>Invoice No</th>
-                  <th>Customer Name</th>
-                  <th>Contact No</th>
-                  <th>Date</th>
-                  <th>Total (inc. GST)</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredInvoices.map(inv => (
-                  <tr key={inv.id}>
-                    <td><b>{inv.id}</b></td>
-                    <td>{inv.customer}</td>
-                    <td>{inv.contact || '-'}</td>
-                    <td>{inv.date}</td>
-                    <td>₹ {parseFloat(inv.total).toLocaleString()}</td>
-                    <td><span className={`badge ${inv.status === 'Paid' ? 'badge-success' : 'badge-warning'}`}>{inv.status}</span></td>
-                    <td>
-                      {inv.status !== 'Paid' && (
-                        <button className="btn-primary" style={{ padding: '4px 8px', fontSize: '12px', display: 'flex', alignItems: 'center', gap: '5px' }} onClick={() => handleMarkPaid(inv.id)}>
-                          <CheckCircle size={14} /> Mark Paid
-                        </button>
-                      )}
-                    </td>
+            <div className="table-responsive">
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th>Invoice No</th>
+                    <th>Customer Name</th>
+                    <th>Contact No</th>
+                    <th>Date</th>
+                    <th>Total (inc. GST)</th>
+                    <th>Status</th>
+                    <th>Actions</th>
                   </tr>
-                ))}
-                {filteredInvoices.length === 0 && <tr><td colSpan="7" style={{ textAlign: 'center', padding: '20px', color: '#888' }}>No invoices found.</td></tr>}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {filteredInvoices.map(inv => (
+                    <tr key={inv.id}>
+                      <td><b>{inv.id}</b></td>
+                      <td>{inv.customer}</td>
+                      <td>{inv.contact || '-'}</td>
+                      <td>{inv.date}</td>
+                      <td>₹ {parseFloat(inv.total).toLocaleString()}</td>
+                      <td><span className={`badge ${inv.status === 'Paid' ? 'badge-success' : 'badge-warning'}`}>{inv.status}</span></td>
+                      <td>
+                        {inv.status !== 'Paid' && (
+                          <button className="btn-primary" style={{ padding: '4px 8px', fontSize: '12px', display: 'flex', alignItems: 'center', gap: '5px' }} onClick={() => handleMarkPaid(inv.id)}>
+                            <CheckCircle size={14} /> Mark Paid
+                          </button>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                  {filteredInvoices.length === 0 && <tr><td colSpan="7" style={{ textAlign: 'center', padding: '20px', color: '#888' }}>No invoices found.</td></tr>}
+                </tbody>
+              </table>
+            </div>
           )}
         </div>
       </div>
@@ -150,7 +152,7 @@ export default function Invoicing() {
             </div>
             <form onSubmit={handleCreateInvoice}>
               <div className="modal-body">
-                <div style={{ display: 'flex', gap: '15px' }}>
+                <div className="form-row">
                   <div className="form-group" style={{ flex: 2 }}>
                     <label>Customer Name</label>
                     <input type="text" className="form-control" required value={formData.customer} onChange={e => setFormData({ ...formData, customer: e.target.value })} />
@@ -167,7 +169,7 @@ export default function Invoicing() {
                     </select>
                   </div>
                 </div>
-                <div style={{ display: 'flex', gap: '15px' }}>
+                <div className="form-row">
                   <div className="form-group" style={{ flex: 1 }}>
                     <label>Base Amount (₹)</label>
                     <input type="number" className="form-control" required min="0" value={formData.amount} onChange={e => setFormData({ ...formData, amount: e.target.value })} />

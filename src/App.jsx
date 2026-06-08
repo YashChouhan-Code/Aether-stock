@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { Search, Bell, Sun, Moon } from 'lucide-react';
+import { Search, Bell, Sun, Moon, Menu } from 'lucide-react';
+
 
 import Sidebar from './components/Sidebar';
 import Dashboard from './pages/Dashboard';
@@ -13,6 +14,8 @@ import Settings from './pages/Settings';
 
 function App() {
   const [isDark, setIsDark] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
 
   useEffect(() => {
     fetch('/api/settings')
@@ -43,15 +46,26 @@ function App() {
     <BrowserRouter>
       <div className="app-container">
         {/* Sidebar (left) */}
-        <Sidebar />
+        <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
+
+        {/* Backdrop overlay on mobile */}
+        {isSidebarOpen && (
+          <div className="sidebar-backdrop" onClick={() => setIsSidebarOpen(false)} />
+        )}
 
         {/* Main area (right: header + content) */}
         <div className="main-area">
           {/* Top Header */}
           <header className="main-header">
+            {/* Hamburger menu for mobile */}
+            <button className="mobile-toggle-btn" onClick={() => setIsSidebarOpen(true)} title="Open Menu">
+              <Menu size={20} />
+            </button>
+
             <div className="header-welcome">
               Welcome, <span style={{ color: 'var(--accent-teal)' }}>Admin</span> 👋
             </div>
+
 
             {/* Search */}
             <div className="header-search">
